@@ -21,6 +21,16 @@ describe('Karaoke App', () => {
     it('Should restart song', () => {
       expect(lyricChangeReducer(initialState.songsById, actions.restartSong(1))[1].arrayPosition).toEqual(0);
     });
+
+    it('Should update state when API lyrics are being requested.', () => {
+      const action = actions.requestSong('crocodile rock');
+      const newStateEntry = {
+        isFetching: true,
+        title: action.title,
+        songId: action.songId,
+      };
+      expet(lyricChangeReducer(initialState.songsById, action)[action.songId]).toEqual(newStateEntry);
+    });
   });
 
   describe('songChangeReducer', () => {
@@ -29,7 +39,7 @@ describe('Karaoke App', () => {
     });
 
     it('Should change selectedSong.', () => {
-      expect(songChangeReducer(initialState.currentSongId, actions.changeSong(2))).toEqual(1);
+      expect(songChangeReducer(initialState.currentSongId, actions.changeSong(1))).toEqual(1);
     });
 
   });
